@@ -1,0 +1,15 @@
+package views
+
+import "github.com/skrewby/yapper/views/layouts"
+
+templ Default() {
+	@layouts.Main("Default - Yapper") {
+		@DefaultStub()
+	}
+}
+
+templ DefaultStub() {
+	<div>
+		Default Page
+	</div>
+}

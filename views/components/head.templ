@@ -1,0 +1,672 @@
+package components
+
+templ Head(title string) {
+	<head>
+		<title>{ title }</title>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+		<script src="https://unpkg.com/htmx.org@1.9.12"></script>
+		<!-- Alpine Plugins -->
+		<script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
+		<script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+		<!-- Alpine Core -->
+		<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+		<!-- This script should only be loaded during development -->
+		<script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+		<!-- FONTS -->
+		<link rel="preconnect" href="https://fonts.googleapis.com"/>
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+		<!-- TODO: Only load the necessary font depending on the theme chosen -->
+		<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet"/>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"/>
+		<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"/>
+		<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"/>
+		<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"/>
+		<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"/>
+		<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"/>
+		<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"/>
+		<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"/>
+		<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet"/>
+		<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet"/>
+		<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet"/>
+		<link href="https://fonts.googleapis.com/css2?family=Denk+One&family=Jost:ital,wght@0,100..900;1,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet"/>
+		<link href="https://fonts.googleapis.com/css2?family=Denk+One&family=Inconsolata:wght@200..900&family=Jost:ital,wght@0,100..900;1,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet"/>
+		<link href="https://fonts.googleapis.com/css2?family=Denk+One&family=Inconsolata:wght@200..900&family=Jost:ital,wght@0,100..900;1,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"/>
+		<link href="https://fonts.googleapis.com/css2?family=Denk+One&family=Inconsolata:wght@200..900&family=Jost:ital,wght@0,100..900;1,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playpen+Sans:wght@100..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"/>
+		@themes()
+		@themeListeners()
+	</head>
+}
+
+templ themeListeners() {
+	<script>
+		document.addEventListener('alpine:init', () => {
+			Alpine.store('darkMode', {
+				on: localStorage.getItem("darkMode") == 'true' ? true : false,
+
+				toggle() {
+					this.on = ! this.on
+					localStorage.setItem("darkMode", this.on)
+				}
+			})
+			Alpine.store('theme', localStorage.getItem("theme") == null ? 'modern' : localStorage.getItem("theme"))
+		})
+
+		document.addEventListener('load', () => {
+			Alpine.store('darkMode').on = localStorage.getItem("darkMode") == 'true' ? true : false
+			Alpine.store('theme', localStorage.getItem("theme") == null ? 'arctic' : localStorage.getItem("theme"))
+		})
+	</script>
+}
+
+templ themes() {
+	<style type="text/tailwindcss">
+		@custom-variant dark (&:where(.dark, .dark *));
+
+		@theme {
+			/* Fonts */
+			--font-title: 'Poppins', sans-serif;
+			--font-paragraph: 'Inter', sans-serif;
+
+		   /* Light Themes */
+			--color-surface: var(--color-white);
+			--color-surface-alt: var(--color-neutral-50);
+			--color-on-surface: var(--color-neutral-600);
+			--color-on-surface-strong: var(--color-neutral-900);
+			--color-primary: var(--color-black);
+			--color-on-primary: var(--color-neutral-100);
+			--color-secondary: var(--color-neutral-800);
+			--color-on-secondary: var(--color-white);
+			--color-outline: var(--color-neutral-300);
+			--color-outline-strong: var(--color-neutral-800);
+
+			/* Dark Theme */
+			--color-surface-dark: var(--color-neutral-950);
+			--color-surface-dark-alt: var(--color-neutral-900);
+			--color-on-surface-dark: var(--color-neutral-300);
+			--color-on-surface-dark-strong: var(--color-white);
+			--color-primary-dark: var(--color-white);
+			--color-on-primary-dark: var(--color-black);
+			--color-secondary-dark: var(--color-neutral-300);
+			--color-on-secondary-dark: var(--color-black);
+			--color-outline-dark: var(--color-neutral-700);
+			--color-outline-dark-strong: var(--color-neutral-300);
+
+			/* Shared Colors */
+			--color-info: var(--color-sky-500);
+			--color-on-info: var(--color-white);
+			--color-success: var(--color-green-500);
+			--color-on-success: var(--color-white);
+			--color-warning: var(--color-amber-500);
+			--color-on-warning: var(--color-white);
+			--color-danger: var(--color-red-500);
+			--color-on-danger: var(--color-white);
+
+			/* Border Radius */
+			--radius-radius: var(--radius-sm);
+		}
+
+		@layer base {
+
+			[data-theme=arctic] {
+				/* Fonts */
+				--font-body: 'Inter', sans-serif;
+				--font-title: 'Inter', sans-serif;
+
+				/* Light Theme */
+				--color-surface: var(--color-white);
+				--color-surface-alt: var(--color-slate-100);
+				--color-on-surface: var(--color-slate-700);
+				--color-on-surface-strong: var(--color-black);
+				--color-primary: var(--color-blue-700);
+				--color-on-primary: var(--color-slate-100);
+				--color-secondary: var(--color-indigo-700);
+				--color-on-secondary: var(--color-slate-100);
+				--color-outline: var(--color-slate-300);
+				--color-outline-strong: var(--color-slate-800);
+
+				/* Dark Theme */
+				--color-surface-dark: var(--color-slate-900);
+				--color-surface-dark-alt: var(--color-slate-800);
+				--color-on-surface-dark: var(--color-slate-300);
+				--color-on-surface-dark-strong: var(--color-white);
+				--color-primary-dark: var(--color-blue-600);
+				--color-on-primary-dark: var(--color-slate-100);
+				--color-secondary-dark: var(--color-indigo-600);
+				--color-on-secondary-dark: var(--color-slate-100);
+				--color-outline-dark: var(--color-slate-700);
+				--color-outline-dark-strong: var(--color-slate-300);
+
+				/* Shared Colors */
+				--color-info: var(--color-sky-600);
+				--color-on-info: var(--color-white);
+				--color-success: var(--color-green-600);
+				--color-on-success: var(--color-white);
+				--color-warning: var(--color-amber-500);
+				--color-on-warning: var(--color-white);
+				--color-danger: var(--color-red-600);
+				--color-on-danger: var(--color-white);
+
+				/* Border Radius */
+				--radius-radius: var(--radius-lg);
+			}
+
+			[data-theme=minimal] {
+				/* Fonts */
+				--font-body: 'Montserrat', sans-serif;
+				--font-title: 'Montserrat', sans-serif;
+
+				/* Light Theme */
+				--color-surface: var(--color-white);
+				--color-surface-alt: var(--color-neutral-100);
+				--color-on-surface: var(--color-neutral-600);
+				--color-on-surface-strong: var(--color-neutral-900);
+				--color-primary: var(--color-black);
+				--color-on-primary: var(--color-neutral-100);
+				--color-secondary: var(--color-neutral-800);
+				--color-on-secondary: var(--color-white);
+				--color-outline: var(--color-neutral-300);
+				--color-outline-strong: var(--color-neutral-800);
+
+				/* Dark Theme */
+				--color-surface-dark: var(--color-neutral-950);
+				--color-surface-dark-alt: var(--color-neutral-800);
+				--color-on-surface-dark: var(--color-neutral-400);
+				--color-on-surface-dark-strong: var(--color-neutral-100);
+				--color-primary-dark: var(--color-white);
+				--color-on-primary-dark: var(--color-black);
+				--color-secondary-dark: var(--color-neutral-300);
+				--color-on-secondary-dark: var(--color-black);
+				--color-outline-dark: var(--color-neutral-700);
+				--color-outline-dark-strong: var(--color-neutral-300);
+
+				/* Shared Colors */
+				--color-info: var(--color-sky-500);
+				--color-on-info: var(--color-white);
+				--color-success: var(--color-green-300);
+				--color-on-success: var(--color-slate-900);
+				--color-warning: var(--color-amber-300);
+				--color-on-warning: var(--color-amber-900);
+				--color-danger: var(--color-red-500);
+				--color-on-danger: var(--color-white);
+
+				/* Border Radius */
+				--radius-radius: var(--radius-none);
+			}
+
+			[data-theme=modern] {
+				/* Fonts */
+				--font-body: 'Lato', sans-serif;
+				--font-title: 'Lato', sans-serif;
+
+				/* Light Theme */
+				--color-surface: var(--color-white);
+				--color-surface-alt: var(--color-neutral-50);
+				--color-on-surface: var(--color-neutral-600);
+				--color-on-surface-strong: var(--color-neutral-900);
+				--color-primary: var(--color-black);
+				--color-on-primary: var(--color-neutral-100);
+				--color-secondary: var(--color-neutral-800);
+				--color-on-secondary: var(--color-white);
+				--color-outline: var(--color-neutral-300);
+				--color-outline-strong: var(--color-neutral-800);
+
+				/* Dark Theme */
+				--color-surface-dark: var(--color-neutral-950);
+				--color-surface-dark-alt: var(--color-neutral-900);
+				--color-on-surface-dark: var(--color-neutral-300);
+				--color-on-surface-dark-strong: var(--color-white);
+				--color-primary-dark: var(--color-white);
+				--color-on-primary-dark: var(--color-black);
+				--color-secondary-dark: var(--color-neutral-300);
+				--color-on-secondary-dark: var(--color-black);
+				--color-outline-dark: var(--color-neutral-700);
+				--color-outline-dark-strong: var(--color-neutral-300);
+
+				/* Shared Colors */
+				--color-info: var(--color-sky-500);
+				--color-on-info: var(--color-white);
+				--color-success: var(--color-green-500);
+				--color-on-success: var(--color-white);
+				--color-warning: var(--color-amber-500);
+				--color-on-warning: var(--color-white);
+				--color-danger: var(--color-red-500);
+				--color-on-danger: var(--color-white);
+
+				/* Border Radius */
+				--radius-radius: var(--radius-sm);
+			}
+
+			[data-theme=high-contrast] {
+				/* Fonts */
+				--font-body: 'Inter', sans-serif;
+				--font-title: 'Inter', sans-serif;
+
+				/* Light Theme */
+				--color-surface: var(--color-gray-50);
+				--color-surface-alt: var(--color-gray-200);
+				--color-on-surface: var(--color-gray-800);
+				--color-on-surface-strong: var(--color-gray-950);
+				--color-primary: var(--color-sky-900);
+				--color-on-primary: var(--color-white);
+				--color-secondary: var(--color-indigo-900);
+				--color-on-secondary: var(--color-white);
+				--color-outline: var(--color-gray-500);
+				--color-outline-strong: var(--color-gray-900);
+
+				/* Dark Theme */
+				--color-surface-dark: var(--color-gray-900);
+				--color-surface-dark-alt: var(--color-gray-800);
+				--color-on-surface-dark: var(--color-gray-300);
+				--color-on-surface-dark-strong: var(--color-gray-100);
+				--color-primary-dark: var(--color-sky-400);
+				--color-on-primary-dark: var(--color-black);
+				--color-secondary-dark: var(--color-indigo-400);
+				--color-on-secondary-dark: var(--color-black);
+				--color-outline-dark: var(--color-gray-500);
+				--color-outline-dark-strong: var(--color-gray-300);
+
+				/* Shared Colors */
+				--color-info: var(--color-sky-500);
+				--color-on-info: var(--color-black);
+				--color-success: var(--color-green-500);
+				--color-on-success: var(--color-black);
+				--color-warning: var(--color-yellow-500);
+				--color-on-warning: var(--color-black);
+				--color-danger: var(--color-red-500);
+				--color-on-danger: var(--color-black);
+
+				/* Border Radius */
+				--radius-radius: var(--radius-sm);
+			}
+
+			[data-theme=neo-brutalism] {
+				/* Fonts */
+				--font-body: 'Space Mono', monospace;
+				--font-title: 'Montserrat', sans-serif;
+
+				/* Light Theme */
+				--color-surface: var(--color-white);
+				--color-surface-alt: var(--color-neutral-50);
+				--color-on-surface: var(--color-black);
+				--color-on-surface-strong: var(--color-black);
+				--color-primary: var(--color-violet-500);
+				--color-on-primary: var(--color-white);
+				--color-secondary: var(--color-lime-400);
+				--color-on-secondary: var(--color-black);
+				--color-outline: var(--color-black);
+				--color-outline-strong: var(--color-black);
+
+				/* Dark Theme */
+				--color-surface-dark: var(--color-neutral-950);
+				--color-surface-dark-alt: var(--color-neutral-800);
+				--color-on-surface-dark: var(--color-neutral-200);
+				--color-on-surface-dark-strong: var(--color-white);
+				--color-primary-dark: var(--color-violet-400);
+				--color-on-primary-dark: var(--color-black);
+				--color-secondary-dark: var(--color-lime-300);
+				--color-on-secondary-dark: var(--color-black);
+				--color-outline-dark: var(--color-neutral-300);
+				--color-outline-dark-strong: var(--color-white);
+
+				/* Shared Colors */
+				--color-info: var(--color-sky-600);
+				--color-on-info: var(--color-black);
+				--color-success: var(--color-green-600);
+				--color-on-success: var(--color-black);
+				--color-warning: var(--color-amber-500);
+				--color-on-warning: var(--color-black);
+				--color-danger: var(--color-red-500);
+				--color-on-danger: var(--color-black);
+
+				/* Border Radius */
+				--radius-radius: var(--radius-none);
+			}
+
+			[data-theme=halloween] {
+				/* Fonts */
+				--font-body: 'Poppins', sans-serif;
+				--font-title: 'Denk One', sans-serif;
+
+				/* Light Theme */
+				--color-surface: var(--color-white);
+				--color-surface-alt: var(--color-gray-100);
+				--color-on-surface: var(--color-slate-600);
+				--color-on-surface-strong: var(--color-purple-800);
+				--color-primary: var(--color-orange-400);
+				--color-on-primary: var(--color-slate-100);
+				--color-secondary: var(--color-purple-600);
+				--color-on-secondary: var(--color-slate-100);
+				--color-outline: var(--color-gray-200);
+				--color-outline-strong: var(--color-orange-500);
+
+				/* Dark Theme */
+				--color-surface-dark: var(--color-black);
+				--color-surface-dark-alt: var(--color-gray-900);
+				--color-on-surface-dark: var(--color-violet-100);
+				--color-on-surface-dark-strong: var(--color-white);
+				--color-primary-dark: var(--color-lime-400);
+				--color-on-primary-dark: var(--color-black);
+				--color-secondary-dark: var(--color-fuchsia-600);
+				--color-on-secondary-dark: var(--color-white);
+				--color-outline-dark: var(--color-slate-700);
+				--color-outline-dark-strong: var(--color-purple-600);
+
+				/* Shared Colors */
+				--color-info: var(--color-sky-500);
+				--color-on-info: var(--color-slate-100);
+				--color-success: var(--color-green-400);
+				--color-on-success: var(--color-slate-900);
+				--color-warning: var(--color-amber-500);
+				--color-on-warning: var(--color-slate-900);
+				--color-danger: var(--color-red-500);
+				--color-on-danger: var(--color-slate-100);
+
+				/* Border Radius */
+				--radius-radius: var(--radius-xl);
+			}
+
+			[data-theme=zombie] {
+				/* Fonts */
+				--font-body: 'Montserrat', sans-serif;
+				--font-title: 'Denk One', sans-serif;
+
+				/* Light Theme */
+				--color-surface: var(--color-violet-50);
+				--color-surface-alt: var(--color-violet-100);
+				--color-on-surface: var(--color-slate-600);
+				--color-on-surface-strong: var(--color-purple-800);
+				--color-primary: var(--color-orange-400);
+				--color-on-primary: var(--color-slate-100);
+				--color-secondary: var(--color-purple-600);
+				--color-on-secondary: var(--color-slate-100);
+				--color-outline: var(--color-gray-200);
+				--color-outline-strong: var(--color-slate-800);
+
+				/* Dark Theme */
+				--color-surface-dark: var(--color-indigo-950);
+				--color-surface-dark-alt: var(--color-violet-950);
+				--color-on-surface-dark: var(--color-violet-100);
+				--color-on-surface-dark-strong: var(--color-white);
+				--color-primary-dark: var(--color-orange-600);
+				--color-on-primary-dark: var(--color-slate-100);
+				--color-secondary-dark: var(--color-lime-500);
+				--color-on-secondary-dark: var(--color-black);
+				--color-outline-dark: var(--color-slate-700);
+				--color-outline-dark-strong: var(--color-slate-400);
+
+				/* Shared Colors */
+				--color-info: var(--color-sky-500);
+				--color-on-info: var(--color-slate-100);
+				--color-success: var(--color-green-400);
+				--color-on-success: var(--color-slate-900);
+				--color-warning: var(--color-amber-500);
+				--color-on-warning: var(--color-slate-900);
+				--color-danger: var(--color-red-500);
+				--color-on-danger: var(--color-slate-100);
+
+				/* Border Radius */
+				--radius-radius: var(--radius-xl);
+			}
+
+			[data-theme=pastel] {
+				/* Fonts */
+				--font-body: 'Playpen Sans', cursive;
+				--font-title: 'Playpen Sans', cursive;
+
+				/* Light Theme */
+				--color-surface: var(--color-amber-50);
+				--color-surface-alt: var(--color-amber-100);
+				--color-on-surface: var(--color-neutral-500);
+				--color-on-surface-strong: var(--color-neutral-700);
+				--color-primary: var(--color-rose-400);
+				--color-on-primary: var(--color-white);
+				--color-secondary: var(--color-orange-200);
+				--color-on-secondary: var(--color-neutral-800);
+				--color-outline: var(--color-neutral-200);
+				--color-outline-strong: var(--color-neutral-500);
+
+				/* Dark Theme */
+				--color-surface-dark: var(--color-neutral-900);
+				--color-surface-dark-alt: var(--color-neutral-800);
+				--color-on-surface-dark: var(--color-violet-100);
+				--color-on-surface-dark-strong: var(--color-white);
+				--color-primary-dark: var(--color-rose-400);
+				--color-on-primary-dark: var(--color-white);
+				--color-secondary-dark: var(--color-orange-200);
+				--color-on-secondary-dark: var(--color-neutral-800);
+				--color-outline-dark: var(--color-neutral-700);
+				--color-outline-dark-strong: var(--color-neutral-600);
+
+				/* Shared Colors */
+				--color-info: var(--color-blue-300);
+				--color-on-info: var(--color-sky-800);
+				--color-success: var(--color-green-300);
+				--color-on-success: var(--color-green-800);
+				--color-warning: var(--color-amber-300);
+				--color-on-warning: var(--color-amber-700);
+				--color-danger: var(--color-red-300);
+				--color-on-danger: var(--color-red-800);
+
+				/* Border Radius */
+				--radius-radius: var(--radius-xl);
+			}
+
+			[data-theme=90s] {
+				/* Fonts */
+				--font-body: 'Poppins', sans-serif;
+				--font-title: 'Oswald', sans-serif;
+
+				/* Light Theme */
+				--color-surface: var(--color-neutral-100);
+				--color-surface-alt: var(--color-neutral-200);
+				--color-on-surface: var(--color-neutral-800);
+				--color-on-surface-strong: var(--color-black);
+				--color-primary: var(--color-purple-500);
+				--color-on-primary: var(--color-white);
+				--color-secondary: var(--color-sky-500);
+				--color-on-secondary: var(--color-white);
+				--color-outline: var(--color-neutral-300);
+				--color-outline-strong: var(--color-neutral-800);
+
+				/* Dark Theme */
+				--color-surface-dark: var(--color-neutral-800);
+				--color-surface-dark-alt: var(--color-neutral-900);
+				--color-on-surface-dark: var(--color-neutral-300);
+				--color-on-surface-dark-strong: var(--color-neutral-100);
+				--color-primary-dark: var(--color-purple-400);
+				--color-on-primary-dark: var(--color-black);
+				--color-secondary-dark: var(--color-blue-400);
+				--color-on-secondary-dark: var(--color-black);
+				--color-outline-dark: var(--color-neutral-700);
+				--color-outline-dark-strong: var(--color-neutral-300);
+
+				/* Shared Colors */
+				--color-info: var(--color-cyan-500);
+				--color-on-info: var(--color-black);
+				--color-success: var(--color-teal-400);
+				--color-on-success: var(--color-black);
+				--color-warning: var(--color-yellow-300);
+				--color-on-warning: var(--color-black);
+				--color-danger: var(--color-pink-500);
+				--color-on-danger: var(--color-black);
+
+				/* Border Radius */
+				--radius-radius: var(--radius-xl);
+			}
+
+			[data-theme=christmas] {
+				/* Fonts */
+				--font-body: 'Lato', sans-serif;
+				--font-title: 'Jost', sans-serif;
+
+				/* Light Theme */
+				--color-surface: var(--color-white);
+				--color-surface-alt: var(--color-emerald-50);
+				--color-on-surface: var(--color-neutral-700);
+				--color-on-surface-strong: var(--color-emerald-800);
+				--color-primary: var(--color-red-600);
+				--color-on-primary: var(--color-white);
+				--color-secondary: var(--color-emerald-700);
+				--color-on-secondary: var(--color-white);
+				--color-outline: var(--color-neutral-300);
+				--color-outline-strong: var(--color-neutral-800);
+
+				/* Dark Theme */
+				--color-surface-dark: var(--color-emerald-950);
+				--color-surface-dark-alt: var(--color-emerald-800);
+				--color-on-surface-dark: var(--color-neutral-200);
+				--color-on-surface-dark-strong: var(--color-amber-100);
+				--color-primary-dark: var(--color-red-600);
+				--color-on-primary-dark: var(--color-white);
+				--color-secondary-dark: var(--color-emerald-600);
+				--color-on-secondary-dark: var(--color-white);
+				--color-outline-dark: var(--color-emerald-900);
+				--color-outline-dark-strong: var(--color-white);
+
+				/* Shared Colors */
+				--color-info: var(--color-cyan-500);
+				--color-on-info: var(--color-black);
+				--color-success: var(--color-emerald-500);
+				--color-on-success: var(--color-black);
+				--color-warning: var(--color-amber-500);
+				--color-on-warning: var(--color-black);
+				--color-danger: var(--color-red-500);
+				--color-on-danger: var(--color-black);
+
+				/* Border Radius */
+				--radius-radius: var(--radius-md);
+			}
+
+			[data-theme=prototype] {
+				/* Fonts */
+				--font-body: 'Playpen Sans', cursive;
+				--font-title: 'Playpen Sans', cursive;
+
+				/* Light Theme */
+				--color-surface: var(--color-white);
+				--color-surface-alt: var(--color-neutral-100);
+				--color-on-surface: var(--color-black);
+				--color-on-surface-strong: var(--color-black);
+				--color-primary: var(--color-black);
+				--color-on-primary: var(--color-white);
+				--color-secondary: var(--color-neutral-700);
+				--color-on-secondary: var(--color-white);
+				--color-outline: var(--color-black);
+				--color-outline-strong: var(--color-black);
+
+				/* Dark Theme */
+				--color-surface-dark: var(--color-black);
+				--color-surface-dark-alt: var(--color-neutral-900);
+				--color-on-surface-dark: var(--color-white);
+				--color-on-surface-dark-strong: var(--color-white);
+				--color-primary-dark: var(--color-white);
+				--color-on-primary-dark: var(--color-black);
+				--color-secondary-dark: var(--color-neutral-300);
+				--color-on-secondary-dark: var(--color-black);
+				--color-outline-dark: var(--color-white);
+				--color-outline-dark-strong: var(--color-white);
+
+				/* Shared Colors */
+				--color-info: var(--color-sky-300);
+				--color-on-info: var(--color-black);
+				--color-success: var(--color-green-300);
+				--color-on-success: var(--color-black);
+				--color-warning: var(--color-yellow-200);
+				--color-on-warning: var(--color-black);
+				--color-danger: var(--color-red-300);
+				--color-on-danger: var(--color-black);
+
+				/* Border Radius */
+				--radius-radius: var(--radius-none);
+			}
+
+			[data-theme=news] {
+				/* Fonts */
+				--font-body: 'Inter', sans-serif;
+				--font-title: 'Merriweather', serif;
+
+				/* Light Theme */
+				--color-surface: var(--color-zinc-50);
+				--color-surface-alt: var(--color-zinc-100);
+				--color-on-surface: var(--color-neutral-600);
+				--color-on-surface-strong: var(--color-neutral-900);
+				--color-primary: var(--color-sky-700);
+				--color-on-primary: var(--color-white);
+				--color-secondary: var(--color-black);
+				--color-on-secondary: var(--color-white);
+				--color-outline: var(--color-zinc-300);
+				--color-outline-strong: var(--color-zinc-500);
+
+				/* Dark Theme */
+				--color-surface-dark: var(--color-zinc-900);
+				--color-surface-dark-alt: var(--color-zinc-800);
+				--color-on-surface-dark: var(--color-zinc-200);
+				--color-on-surface-dark-strong: var(--color-zinc-50);
+				--color-primary-dark: var(--color-sky-600);
+				--color-on-primary-dark: var(--color-white);
+				--color-secondary-dark: var(--color-white);
+				--color-on-secondary-dark: var(--color-black);
+				--color-outline-dark: var(--color-zinc-700);
+				--color-outline-dark-strong: var(--color-zinc-500);
+
+				/* Shared Colors */
+				--color-info: var(--color-sky-700);
+				--color-on-info: var(--color-slate-100);
+				--color-success: var(--color-green-700);
+				--color-on-success: var(--color-white);
+				--color-warning: var(--color-amber-600);
+				--color-on-warning: var(--color-amber-50);
+				--color-danger: var(--color-red-700);
+				--color-on-danger: var(--color-slate-100);
+
+				/* Border Radius */
+				--radius-radius: var(--radius-sm);
+			}
+
+			[data-theme=industrial] {
+				/* Fonts */
+				--font-body: 'Poppins', sans-serif;
+				--font-title: 'Oswald', sans-serif;
+
+				/* Light Theme */
+				--color-surface: var(--color-stone-50);
+				--color-surface-alt: var(--color-stone-200);
+				--color-on-surface: var(--color-stone-800);
+				--color-on-surface-strong: var(--color-black);
+				--color-primary: var(--color-amber-500);
+				--color-on-primary: var(--color-black);
+				--color-secondary: var(--color-stone-900);
+				--color-on-secondary: var(--color-stone-50);
+				--color-outline: var(--color-stone-300);
+				--color-outline-strong: var(--color-blue-600);
+
+				/* Dark Theme */
+				--color-surface-dark: var(--color-stone-950);
+				--color-surface-dark-alt: var(--color-stone-900);
+				--color-on-surface-dark: var(--color-stone-300);
+				--color-on-surface-dark-strong: var(--color-white);
+				--color-primary-dark: var(--color-amber-400);
+				--color-on-primary-dark: var(--color-black);
+				--color-secondary-dark: var(--color-stone-700);
+				--color-on-secondary-dark: var(--color-white);
+				--color-outline-dark: var(--color-stone-700);
+				--color-outline-dark-strong: var(--color-blue-500);
+
+				/* Shared Colors */
+				--color-info: var(--color-sky-600);
+				--color-on-info: var(--color-slate-100);
+				--color-success: var(--color-green-600);
+				--color-on-success: var(--color-white);
+				--color-warning: var(--color-amber-500);
+				--color-on-warning: var(--color-black);
+				--color-danger: var(--color-red-600);
+				--color-on-danger: var(--color-white);
+
+				/* Border Radius */
+				--radius-radius: var(--radius-none);
+			}
+
+		}
+	</style>
+}

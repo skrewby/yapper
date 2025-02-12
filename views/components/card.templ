@@ -1,0 +1,13 @@
+package components
+
+templ Card() {
+	<article class="group flex rounded-radius flex-col overflow-hidden border border-outline bg-surface text-on-surface dark:border-outline-dark dark:bg-surface-dark dark:text-on-surface-dark">
+		<div class="flex flex-col gap-4 p-6">
+			{ children... }
+		</div>
+	</article>
+}
+
+templ CardTitle(title string) {
+	<h3 class="text-balance text-xl font-bold text-on-surface-strong dark:text-on-surface-dark-strong">{ title }</h3>
+}

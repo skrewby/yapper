@@ -1,0 +1,59 @@
+package views
+
+import "github.com/skrewby/yapper/views/layouts"
+import "github.com/skrewby/yapper/views/components"
+
+type theme struct {
+	value string
+	label string
+}
+
+var themes = [...]theme{
+	theme{"arctic", "Arctic"},
+	theme{"high-contrast", "High Contrast"},
+	theme{"minimal", "Minimal"},
+	theme{"modern", "Modern"},
+	theme{"neo-brutalism", "Neo Brutalism"},
+	theme{"halloween", "Halloween"},
+	theme{"zombie", "Zombie"},
+	theme{"pastel", "Pastel"},
+	theme{"90s", "90s"},
+	theme{"christmas", "Christmas"},
+	theme{"prototype", "Prototype"},
+	theme{"news", "News"},
+	theme{"industrial", "Industrial"},
+}
+
+templ Settings() {
+	@layouts.Main("Settings - Yapper") {
+		@SettingsStub()
+	}
+}
+
+templ SettingsStub() {
+	<div>
+		@components.Title("Settings")
+		<div class="flex gap-2">
+			@components.Card() {
+				<div class="flex justify-center px-3">
+					<div class="cursor-pointer font-medium">Appearance</div>
+				</div>
+			}
+			<div class="w-full">
+				@components.Card() {
+					@components.ToggleAlpine("darkModeToggle", "Dark Mode", "$store.darkMode.toggle()", "$store.darkMode.on")
+					@selectTheme("themeSelect", "Theme")
+				}
+			</div>
+		</div>
+	</div>
+}
+
+templ selectTheme(id string, label string) {
+	<label for={ id } class="text-sm font-medium text-on-surface dark:text-on-surface-dark">{ label }</label>
+	<select id={ id } x-model="$store.theme" @change="localStorage.setItem('theme', $store.theme)" class="max-w-sm text-sm border border-outline dark:border-outline-dark rounded-radius px-4 py-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary dark:focus-visible:outline-primary-dark bg-surface dark:bg-surface-dark">
+		for _, t := range themes {
+			<option value={ t.value } class="text-sm text-on-surface dark:text-on-surface-dark">{ t.label }</option>
+		}
+	</select>
+}

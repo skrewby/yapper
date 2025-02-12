@@ -1,0 +1,113 @@
+package components
+
+var ButtonIconColourPrimary string = "focus-visible:outline-primary text-on-primary dark:text-on-primary-dark dark:focus-visible:outline-primary stroke-primary dark:stroke-primary-dark"
+var ButtonIconColourSuccess string = "focus-visible:outline-success text-on-success dark:text-on-success-dark dark:focus-visible:outline-success stroke-success"
+var ButtonIconColourDanger string = "focus-visible:outline-danger text-on-danger dark:text-on-danger-dark dark:focus-visible:outline-danger stroke-danger"
+
+templ DarkModeButton() {
+	<button
+		id="darkModeToggleBtn"
+		aria-label="dark mode toggle"
+		@click="$store.darkMode.toggle()"
+		class="absolute top-0 right-0 z-30 flex items-center justify-center mt-3 mr-3 space-x-1 p-2 text-onSurface opacity-0 hover:bg-surfaceDark/5 dark:text-onSurfaceDark dark:hover:bg-surface/5 rounded-sm"
+		style="opacity: 1; transform: translate(0px);"
+	>
+		<svg x-show="$store.darkMode.on" name="Light Mode" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.2" stroke="currentColor" class="h-6 w-6">
+			<path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"></path>
+		</svg>
+		<svg x-show="!$store.darkMode.on" name="Dark Mode" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.2" stroke="currentColor" class="h-6 w-6" style="display: none;">
+			<path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"></path>
+		</svg>
+	</button>
+}
+
+templ ToggleAlpine(id string, label string, click string, checkedFn string) {
+	<label for={ id } class="inline-flex items-center gap-3">
+		<input id={ id } type="checkbox" class="peer sr-only" role="switch" :checked={ checkedFn } @click={ click }/>
+		<span class="trancking-wide text-sm font-medium text-on-surface peer-disabled:cursor-not-allowed peer-disabled:opacity-70 dark:text-on-surface-dark">{ label }</span>
+		<div class="relative h-6 w-11 after:h-5 after:w-5 peer-checked:after:translate-x-5 rounded-full border border-outline bg-surface-alt after:absolute after:bottom-0 after:left-[0.0625rem] after:top-0 after:my-auto after:rounded-full after:bg-on-surface after:transition-all after:content-[''] peer-checked:bg-primary peer-checked:after:bg-on-primary peer-focus:outline-2 peer-focus:outline-offset-2 peer-focus:outline-outline-strong peer-focus:peer-checked:outline-primary peer-active:outline-offset-0 peer-disabled:cursor-not-allowed peer-disabled:opacity-70 dark:border-outline-dark dark:bg-surface-dark-alt dark:after:bg-on-surface-dark dark:peer-checked:bg-primary-dark dark:peer-checked:after:bg-on-primary-dark dark:peer-focus:outline-outline-dark-strong dark:peer-focus:peer-checked:outline-primary-dark" aria-hidden="true"></div>
+	</label>
+}
+
+templ Toggle(id string, label string, click string) {
+	<label for={ id } class="inline-flex items-center gap-3">
+		<input id={ id } type="checkbox" class="peer sr-only" role="switch" :checked="$store.darkMode.on" @click={ click }/>
+		<span class="trancking-wide text-sm font-medium text-on-surface peer-checked:text-on-surface-strong peer-disabled:cursor-not-allowed peer-disabled:opacity-70 dark:text-on-surface-dark dark:peer-checked:text-on-surface-dark-strong">{ label }</span>
+		<div class="relative h-6 w-11 after:h-5 after:w-5 peer-checked:after:translate-x-5 rounded-full border border-outline bg-surface-alt after:absolute after:bottom-0 after:left-[0.0625rem] after:top-0 after:my-auto after:rounded-full after:bg-on-surface after:transition-all after:content-[''] peer-checked:bg-primary peer-checked:after:bg-on-primary peer-focus:outline-2 peer-focus:outline-offset-2 peer-focus:outline-outline-strong peer-focus:peer-checked:outline-primary peer-active:outline-offset-0 peer-disabled:cursor-not-allowed peer-disabled:opacity-70 dark:border-outline-dark dark:bg-surface-dark-alt dark:after:bg-on-surface-dark dark:peer-checked:bg-primary-dark dark:peer-checked:after:bg-on-primary-dark dark:peer-focus:outline-outline-dark-strong dark:peer-focus:peer-checked:outline-primary-dark" aria-hidden="true"></div>
+	</label>
+}
+
+templ Select(id string, name string, label string) {
+	<label for={ id } class="text-sm font-medium text-on-surface dark:text-on-surface-dark">{ label }</label>
+	<select name={ name } id={ id } class="max-w-sm">
+		{ children... }
+	</select>
+}
+
+templ SelectOption(value string, label string) {
+	<option value={ value } class="text-sm text-on-surface dark:text-on-surface-dark">{ label }</option>
+}
+
+templ ButtonIcon(id string, name string, value string, label string, icon templ.Component, colour string) {
+	<div class="relative w-fit">
+		<input type="hidden" id={ id } name={ name } value={ value }/>
+		<button class={ "peer cursor-pointer tracking-wide transition hover:opacity-75 text-center focus-visible:outline-offset-2  active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed focus-visible:outline-2", colour }>
+			@icon
+		</button>
+		<div id="tooltipDeactivate" class="absolute -top-9 left-1/2 -translate-x-1/2 z-10 whitespace-nowrap rounded-sm bg-surface-dark px-2 py-1 text-center text-sm text-on-surface-dark-strong opacity-0 transition-all ease-out peer-hover:opacity-100 peer-focus:opacity-100 dark:bg-surface dark:text-on-surface-strong" role="tooltip">{ label }</div>
+	</div>
+}
+
+templ ButtonPlus(label string, href string, history string) {
+	<button type="button" class="cursor-pointer inline-flex justify-center items-center gap-2 whitespace-nowrap rounded-radius bg-success border border-success dark:border-success px-4 py-2 text-sm font-medium tracking-wide text-on-success transition hover:opacity-75 text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-success active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-success dark:text-on-success dark:focus-visible:outline-success" hx-get={ string(templ.SafeURL(href)) } hx-target="#main-content" hx-replace-url={ history }>
+		<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="size-5 fill-on-success dark:fill-on-success" fill="currentColor">
+			<path fill-rule="evenodd" d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z" clip-rule="evenodd"></path>
+		</svg>
+		{ label }
+	</button>
+}
+
+templ SearchInput() {
+	<div class="relative flex w-full max-w-xs flex-col gap-1 text-on-surface dark:text-on-surface-dark">
+		<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true" class="absolute left-2.5 top-1/2 size-5 -translate-y-1/2 text-on-surface/50 dark:text-on-surface-dark/50">
+			<path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"></path>
+		</svg>
+		<input type="search" class="w-full rounded-radius border border-outline bg-surface-alt py-2 pl-10 pr-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-75 dark:border-outline-dark dark:bg-surface-dark-alt/50 dark:focus-visible:outline-primary-dark" name="search" placeholder="Search" aria-label="search"/>
+	</div>
+}
+
+templ TextInput(id string, name string, label string, placeholder string) {
+	<div class="flex w-full max-w-xs flex-col gap-1 text-on-surface dark:text-on-surface-dark">
+		<label for={ id } class="w-fit pl-0.5 text-sm">{ label }</label>
+		<input id={ id } type="text" class="w-full rounded-radius border border-outline bg-surface-alt px-2 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-75 dark:border-outline-dark dark:bg-surface-dark-alt/50 dark:focus-visible:outline-primary-dark" name={ name } placeholder={ placeholder }/>
+	</div>
+}
+
+templ TextInputWithValue(id string, name string, label string, placeholder string, value string) {
+	<div class="flex w-full max-w-xs flex-col gap-1 text-on-surface dark:text-on-surface-dark">
+		<label for={ id } class="w-fit pl-0.5 text-sm">{ label }</label>
+		<input id={ id } type="text" class="w-full rounded-radius border border-outline bg-surface-alt px-2 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-75 dark:border-outline-dark dark:bg-surface-dark-alt/50 dark:focus-visible:outline-primary-dark" name={ name } placeholder={ placeholder } value={ value }/>
+	</div>
+}
+
+templ TextInputWithError(id string, name string, label string, placeholder string, value string, errorStr string) {
+	<div x-data="{ show: true }" class="flex w-full max-w-xs flex-col gap-1 text-on-surface dark:text-on-surface-dark">
+		<label x-show="show" for={ id } class="flex w-fit items-center gap-1 pl-0.5 text-sm text-danger">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" aria-hidden="true" fill="currentColor" class="w-4 h-4">
+				<path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z"></path>
+			</svg>
+			{ label }
+		</label>
+		<label x-show="!show" for={ id } class="w-fit pl-0.5 text-sm">{ label }</label>
+		<input id={ id } type="text" class="w-full rounded-radius border bg-surface-alt px-2 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-75 dark:bg-surface-dark-alt/50 dark:focus-visible:outline-primary-dark" :class="show ? 'border-danger' : ''" name={ name } value={ value } placeholder={ placeholder } x-on:input="show = false"/>
+		<small x-show="show" class="pl-0.5 text-danger">{ errorStr }</small>
+	</div>
+}
+
+templ ButtonSubmit(label string, outlined bool) {
+	if (outlined) {
+		<button type="submit" class="cursor-pointer whitespace-nowrap max-w-xs bg-transparent rounded-radius border border-success px-4 py-2 text-sm font-medium tracking-wide text-success transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-success active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:border-success dark:text-success dark:focus-visible:outline-success">{ label }</button>
+	} else {
+		<button type="submit" class="cursor-pointer whitespace-nowrap max-w-xs rounded-radius bg-success border border-success px-4 py-2 text-sm font-medium tracking-wide text-onSuccess transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-success active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-success dark:border-success dark:text-onSuccess dark:focus-visible:outline-success">{ label }</button>
+	}
+}

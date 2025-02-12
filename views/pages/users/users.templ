@@ -1,0 +1,76 @@
+package views_users
+
+import (
+	"github.com/skrewby/yapper/types"
+	"github.com/skrewby/yapper/utils"
+	"github.com/skrewby/yapper/views/components"
+	"github.com/skrewby/yapper/views/layouts"
+	"strconv"
+)
+
+templ Users(users []*types.User) {
+	@layouts.Main("Users - Yapper") {
+		@UsersStub(users)
+	}
+}
+
+templ UsersStub(users []*types.User) {
+	<div>
+		@components.Title("Users")
+		<div class="flex pb-6">
+			@components.SearchInput()
+			<div class="grow"></div>
+			@components.ButtonPlus("New User", "/users/new/stub", "/users/new")
+		</div>
+		@components.Table() {
+			@components.TableHeaders([]string{"Email", "Name", "Created", "Updated", "Active", "Actions"})
+			@components.TableBody() {
+				@usersRows(users)
+			}
+		}
+	</div>
+}
+
+templ usersRows(users []*types.User) {
+	for _, user:= range users {
+		@userRow(user)
+	}
+}
+
+templ userRow(user *types.User) {
+	<tr>
+		<td class="p-4">
+			{ user.Email }
+		</td>
+		<td class="p-4">
+			{ user.Name }
+		</td>
+		<td class="p-4">
+			{ utils.GetDateTimeStr(user.Created) }
+		</td>
+		<td class="p-4">
+			{ utils.GetDateTimeStr(user.Updated ) }
+		</td>
+		<td class="p-4">
+			if *user.Active {
+				<span class="inline-flex overflow-hidden rounded-radius border-success px-1 py-0.5 text-xs font-medium text-success bg-success/10">Active</span>
+			} else {
+				<span class="inline-flex overflow-hidden rounded-radius border-danger px-1 py-0.5 text-xs font-medium text-danger bg-danger/10">Inactive</span>
+			}
+		</td>
+		<td class="p-4">
+			<div class="flex gap-2">
+				<form hx-put={ string(templ.SafeURL("/users/" + strconv.Itoa(user.Id))) } hx-target="#main-content" hx-replace-url="/users" autocomplete="off" novalidate>
+					if *user.Active {
+						@components.ButtonIcon("active", "active", "false", "Deactivate", components.IconLock, components.ButtonIconColourDanger)
+					} else {
+						@components.ButtonIcon("active", "active", "true", "Activate", components.IconLockOpen, components.ButtonIconColourSuccess)
+					}
+				</form>
+				<form hx-put={ string(templ.SafeURL("/users/" + strconv.Itoa(user.Id))) } hx-target="#main-content" hx-replace-url="/users" autocomplete="off" novalidate>
+					@components.ButtonIcon("reset_password", "reset_password", "true", "Reset Password", components.IconRefresh, components.ButtonIconColourPrimary)
+				</form>
+			</div>
+		</td>
+	</tr>
+}

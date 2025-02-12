@@ -1,0 +1,15 @@
+package layouts
+
+import "github.com/skrewby/yapper/views/components"
+
+templ Blank(title string) {
+	<!DOCTYPE html>
+	<html lang="en" x-data :class="$store.darkMode.on ? 'dark' : ''" :data-theme="$store.theme">
+		@components.Head(title)
+		<body hx-boost="true">
+			<main id="layout-main">
+				{ children... }
+			</main>
+		</body>
+	</html>
+}

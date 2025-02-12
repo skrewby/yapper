@@ -1,0 +1,15 @@
+package views
+
+import "github.com/skrewby/yapper/views/layouts"
+
+templ Dashboard() {
+	@layouts.Main("Dashboard - Yapper") {
+		@DashboardStub()
+	}
+}
+
+templ DashboardStub() {
+	<div>
+		Dashboard
+	</div>
+}

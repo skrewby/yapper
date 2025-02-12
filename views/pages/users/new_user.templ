@@ -1,0 +1,70 @@
+package views_users
+
+import (
+	"errors"
+	"github.com/skrewby/yapper/types"
+	"github.com/skrewby/yapper/views/components"
+	"github.com/skrewby/yapper/views/layouts"
+)
+
+templ NewUser() {
+	@layouts.Main("New User - Yapper") {
+		@NewUserStub()
+	}
+}
+
+templ NewUserStub() {
+	<div>
+		@components.Title("New User")
+		@components.Breadcrumbs() {
+			@components.BreadcrumbsLink("Users", "/users/stub", "/users")
+			@components.BreadcrumbsCurrent("New User")
+		}
+		@components.Card() {
+			<div class="w-full">
+				<form hx-post="/users/new" hx-target="#main-content" autocomplete="off" novalidate class="flex flex-col gap-4">
+					@components.TextInput("email", "email", "Email", "")
+					@components.TextInput("displayName", "displayName", "Display Name", "")
+					// Temporary until password reset works
+					@components.TextInput("password", "password", "Password", "")
+					@components.ButtonSubmit("Create", true)
+				</form>
+			</div>
+		}
+	</div>
+}
+
+templ NewUserStubError(email string, displayName string, password string, err error) {
+	<div>
+		@components.Title("New User")
+		@components.Card() {
+			<div class="w-full">
+				{{ var userErr types.CreateUserError }}
+				if errors.As(err, &userErr) {
+					@components.AlertDanger("Error", err.Error(), "mb-4 max-w-xs")
+				} else {
+					@components.AlertDanger("Error", "There was an issue when creating the user", "mb-4 max-w-xs")
+				}
+				<form hx-post="/users/new" hx-target="#main-content" autocomplete="off" novalidate class="flex flex-col gap-4">
+					@textInputCheckError("email", "email", "Email", "", email, err)
+					@textInputCheckError("displayName", "displayName", "Display Name", "", displayName, err)
+					// Temporary until password reset works
+					@textInputCheckError("password", "password", "Password", "", password, err)
+					@components.ButtonSubmit("Create", true)
+				</form>
+			</div>
+		}
+	</div>
+}
+
+templ textInputCheckError(id string, name string, label string, placeholder string, value string, err error) {
+	{{
+		var userErr types.CreateUserError
+		errors.As(err, &userErr)
+	}}
+	if userErr.Field == name {
+		@components.TextInputWithError(id, name, label, placeholder, value, err.Error())
+	} else {
+		@components.TextInputWithValue(id, name, label, placeholder, value)
+	}
+}
