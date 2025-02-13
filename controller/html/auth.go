@@ -44,7 +44,7 @@ func Login(userModel models.Users, sessions auth.Sessions) func(w http.ResponseW
 			return
 		}
 
-		sessions.Create(w, user.Email, remember == "on")
+		sessions.Create(w, user.Id, user.Email, remember == "on")
 		http.Redirect(w, r, "/", 302)
 	}
 }

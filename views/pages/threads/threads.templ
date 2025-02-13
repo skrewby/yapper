@@ -1,0 +1,51 @@
+package views_threads
+
+import (
+	"github.com/skrewby/yapper/types"
+	"github.com/skrewby/yapper/utils"
+	"github.com/skrewby/yapper/views/components"
+	"github.com/skrewby/yapper/views/layouts"
+)
+
+templ Threads(threads []*types.Thread) {
+	@layouts.Main("Threads - Yapper") {
+		@ThreadsStub(threads)
+	}
+}
+
+templ ThreadsStub(threads []*types.Thread) {
+	<div>
+		@components.Title("Threads")
+		<div class="flex pb-6">
+			<div></div>
+			<div class="grow"></div>
+			@components.ButtonPlus("New Thread", "/threads/new/stub", "/threads/new")
+		</div>
+		@components.Table() {
+			@components.TableHeaders([]string{"Title", "Author", "Created"})
+			@components.TableBody() {
+				@threadsRows(threads)
+			}
+		}
+	</div>
+}
+
+templ threadsRows(threads []*types.Thread) {
+	for _, thread := range threads {
+		@threadRow(thread)
+	}
+}
+
+templ threadRow(thread *types.Thread) {
+	<tr>
+		<td class="p-4">
+			{ thread.Title }
+		</td>
+		<td class="p-4">
+			{ thread.Author.Name }
+		</td>
+		<td class="p-4">
+			{ utils.GetDateTimeStr(thread.Created) }
+		</td>
+	</tr>
+}

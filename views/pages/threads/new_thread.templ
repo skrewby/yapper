@@ -1,0 +1,45 @@
+package views_threads
+
+import (
+	"github.com/skrewby/yapper/views/components"
+	"github.com/skrewby/yapper/views/layouts"
+)
+
+templ NewThread() {
+	@layouts.Main("New Thread - Yapper") {
+		@NewThreadStub()
+	}
+}
+
+templ NewThreadStub() {
+	<div>
+		@components.Title("New Thread")
+		@components.Breadcrumbs() {
+			@components.BreadcrumbsLink("Threads", "/threads/stub", "/threads")
+			@components.BreadcrumbsCurrent("New Thread")
+		}
+		@components.Card() {
+			<div class="w-full">
+				<form hx-post="/threads/new" hx-replace-url="/threads" hx-target="#main-content" autocomplete="off" novalidate class="flex flex-col gap-4">
+					@components.TextInput("title", "title", "Title", "")
+					@components.ButtonSubmit("Create", true)
+				</form>
+			</div>
+		}
+	</div>
+}
+
+templ NewThreadStubError(title string) {
+	<div>
+		@components.Title("New Thread")
+		@components.Card() {
+			<div class="w-full">
+				@components.AlertDanger("Error", "There was an issue when creating the thread", "mb-4 max-w-xs")
+				<form hx-post="/threads/new" hx-replace-url="/threads" hx-target="#main-content" autocomplete="off" novalidate class="flex flex-col gap-4">
+					@components.TextInputWithValue("title", "title", "Title", "", title)
+					@components.ButtonSubmit("Create", true)
+				</form>
+			</div>
+		}
+	</div>
+}

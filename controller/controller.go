@@ -22,7 +22,8 @@ type Controller struct {
 }
 
 type Models struct {
-	users models.Users
+	users   models.Users
+	threads models.Threads
 }
 
 func NewController(env utils.Environment) Controller {
@@ -34,7 +35,8 @@ func NewController(env utils.Environment) Controller {
 	sessions := auth.InitSessionAuth()
 
 	models := Models{
-		users: *models.NewUsersModel(db),
+		users:   *models.NewUsersModel(db),
+		threads: *models.NewThreadsModel(db),
 	}
 
 	return Controller{
@@ -70,6 +72,16 @@ func (c *Controller) htmlRoutes() http.Handler {
 		r.Route("/dashboard", func(r chi.Router) {
 			r.Get("/", html.Dashboard())
 			r.Get("/stub", html.DashboardStub())
+		})
+
+		r.Route("/threads", func(r chi.Router) {
+			r.Get("/", html.GetAllThreads(c.models.threads))
+			r.Get("/stub", html.GetAllThreadsStub(c.models.threads))
+
+			r.Get("/new", html.NewThread())
+			r.Get("/new/stub", html.NewThreadStub())
+			r.Post("/new", html.CreateThread(c.models.threads))
+
 		})
 
 		r.Route("/settings", func(r chi.Router) {
