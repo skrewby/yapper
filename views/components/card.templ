@@ -8,6 +8,14 @@ templ Card() {
 	</article>
 }
 
+templ CardEx(css string) {
+	<article class={ "group flex rounded-radius flex-col overflow-hidden border border-outline bg-surface text-on-surface dark:border-outline-dark dark:bg-surface-dark dark:text-on-surface-dark", css }>
+		<div class={ "flex flex-col gap-4 p-6", css }>
+			{ children... }
+		</div>
+	</article>
+}
+
 templ CardTitle(title string) {
 	<h3 class="text-balance text-xl font-bold text-on-surface-strong dark:text-on-surface-dark-strong">{ title }</h3>
 }

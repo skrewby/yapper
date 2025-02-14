@@ -1,0 +1,48 @@
+package components
+
+templ Editor() {
+	<div class="flex w-full flex-col overflow-hidden rounded-radius border border-outline text-on-surface dark:border-outline-dark dark:text-on-surface-dark grow">
+		<div x-data="{ selectedTab: 'editor' }" class="w-full h-full">
+			<div x-on:keydown.right.prevent="$focus.wrap().next()" x-on:keydown.left.prevent="$focus.wrap().previous()" class="flex gap-2 overflow-x-auto border-b border-outline dark:border-outline-dark" role="tablist" aria-label="tab options">
+				@tab(IconPencil, "editor", "Editor")
+				@tab(IconEye, "preview", "Preview")
+			</div>
+			<div class="text-on-surface dark:text-on-surface-dark h-full">
+				@tabContent("editor") {
+					<div class="bg-surface-alt/50 dark:bg-surface-dark-alt/50 p-2 flex flex-grow h-full">
+						<textarea class="scroll-on z-10 w-full resize-none bg-transparent p-4 text-sm focus:outline-hidden h-full" name="message" rows="6" placeholder="Type your message here..."></textarea>
+					</div>
+				}
+				@tabContent("preview") {
+					<div class="text-on-surface dark:text-on-surface-dark">
+						Preview
+					</div>
+				}
+			</div>
+		</div>
+		{ children... }
+	</div>
+}
+
+templ tab(icon templ.Component, name string, label string) {
+	<button x-on:click={ "selectedTab = '" + name + "'" } x-bind:aria-selected={ "selectedTab === '" + name + "'" } x-bind:tabindex={ "selectedTab === '" + name + "' ? '0' : '-1'" } x-bind:class={ "selectedTab === '" + name + "' ? 'font-bold text-primary border-b-2 border-primary dark:border-primary-dark dark:text-primary-dark' : 'text-on-surface font-medium dark:text-on-surface-dark dark:hover:border-b-outline-dark-strong dark:hover:text-on-surface-dark-strong hover:border-b-2 hover:border-b-outline-strong hover:text-on-surface-strong'" } class="flex h-min items-center gap-2 px-4 py-2 text-sm stroke-primary dark:stroke-primary-dark" type="button" role="tab" aria-controls={ "tabpanel" + name }>
+		@icon
+		{ label }
+	</button>
+}
+
+templ tabContent(name string) {
+	<div x-cloak x-show={ "selectedTab === '" + name + "'" } id={ "tabpanel" + name } role="tabpanel" aria-label={ name } class="h-full">
+		{ children... }
+	</div>
+}
+
+templ EditorFooter() {
+	<div class="flex w-full items-center justify-between border-t border-outline bg-surface-alt px-2.5 py-2 dark:border-outline-dark dark:bg-surface-dark-alt">
+		{ children... }
+	</div>
+}
+
+templ EditorSendButton() {
+	<button class="whitespace-nowrap rounded-radius border border-primary bg-primary px-4 py-2 text-center text-xs font-medium tracking-wide text-on-primary transition hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 dark:bg-primary-dark dark:text-on-primary-dark dark:border-primary-dark dark:focus-visible:outline-primary-dark" type="button" aria-label="send">Send</button>
+}
