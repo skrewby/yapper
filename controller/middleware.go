@@ -40,7 +40,20 @@ func (c *Controller) sessionAuth(next http.Handler) http.Handler {
 			return
 		}
 
-		next.ServeHTTP(w, r)
+		userId, err := c.sessions.GetUserId(token)
+		if err != nil {
+			http.Redirect(w, r, "/login", 302)
+			return
+		}
+
+		user, err := c.models.users.GetUser(userId)
+		if err != nil {
+			http.Error(w, http.StatusText(404), 404)
+			return
+		}
+		ctx := context.WithValue(r.Context(), "user", user)
+
+		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
 

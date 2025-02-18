@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"fmt"
 	"log/slog"
 	"net/http"
 	"time"
@@ -14,6 +15,7 @@ type sessionToken struct {
 }
 
 type session struct {
+	userId int
 	email  string
 	expiry time.Time
 }
@@ -28,11 +30,12 @@ func InitSessionAuth() *Sessions {
 	}
 }
 
-func (s *Sessions) Create(w http.ResponseWriter, email string, remember bool) {
+func (s *Sessions) Create(w http.ResponseWriter, userId int, email string, remember bool) {
 	token := uuid.NewString()
 	expiresAt := time.Now().Add(60 * 60 * 24 * 30 * time.Second)
 
 	s.sessions[token] = session{
+		userId: userId,
 		email:  email,
 		expiry: expiresAt,
 	}
@@ -42,6 +45,16 @@ func (s *Sessions) Create(w http.ResponseWriter, email string, remember bool) {
 		expiresAt,
 	}
 	s.setCookie(w, t, remember)
+}
+
+func (s *Sessions) GetUserId(token string) (int, error) {
+	sess, exists := s.sessions[token]
+	if !exists {
+		slog.Info("Attempted to get user id from an invalid session token")
+		return -1, fmt.Errorf("Session token invalid")
+	}
+
+	return sess.userId, nil
 }
 
 func (s *Sessions) Valid(token string) bool {
