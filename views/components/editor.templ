@@ -5,7 +5,9 @@ templ Editor() {
 		<div x-data="{ selectedTab: 'editor' }" class="w-full h-full">
 			<div x-on:keydown.right.prevent="$focus.wrap().next()" x-on:keydown.left.prevent="$focus.wrap().previous()" class="flex gap-2 overflow-x-auto border-b border-outline dark:border-outline-dark" role="tablist" aria-label="tab options">
 				@tab(IconPencil, "editor", "Editor")
-				@tab(IconEye, "preview", "Preview")
+				<div hx-post="/markdown" hx-target="#preview">
+					@tab(IconEye, "preview", "Preview")
+				</div>
 			</div>
 			<div class="text-on-surface dark:text-on-surface-dark h-full">
 				@tabContent("editor") {
@@ -15,7 +17,9 @@ templ Editor() {
 				}
 				@tabContent("preview") {
 					<div class="text-on-surface dark:text-on-surface-dark">
-						Preview
+						<div id="preview">
+							Preview
+						</div>
 					</div>
 				}
 			</div>

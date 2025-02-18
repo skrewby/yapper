@@ -24,6 +24,7 @@ type Controller struct {
 type Models struct {
 	users   models.Users
 	threads models.Threads
+	editor  models.Editor
 }
 
 func NewController(env utils.Environment) Controller {
@@ -37,6 +38,7 @@ func NewController(env utils.Environment) Controller {
 	models := Models{
 		users:   *models.NewUsersModel(db),
 		threads: *models.NewThreadsModel(db),
+		editor:  *models.NewEditorModel(db),
 	}
 
 	return Controller{
@@ -68,6 +70,8 @@ func (c *Controller) htmlRoutes() http.Handler {
 		r.Use(c.sessionAuth)
 
 		r.Get("/", html.Dashboard())
+
+		r.Post("/markdown", html.ConvertMarkdownToHTML(c.models.editor))
 
 		r.Route("/dashboard", func(r chi.Router) {
 			r.Get("/", html.Dashboard())

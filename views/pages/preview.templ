@@ -1,0 +1,20 @@
+package views
+
+/// WARNING: Only ever use this when getting html from a trusted source!
+templ Preview(htmlStr string) {
+	<div
+		class="
+			p-4 
+			[&_h1]:text-xl [&_h1]:font-bold 
+			[&_h2]:text-md [&_h2]:font-bold
+		"
+	>
+		@templ.Raw(htmlStr)
+	</div>
+}
+
+templ PreviewError() {
+	<div>
+		An error ocurred
+	</div>
+}
