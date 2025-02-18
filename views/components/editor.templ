@@ -27,9 +27,9 @@ templ Editor() {
 		{ children... }
 	</div>
 	<script>
-			const target = document.querySelector("#editor-content");
+			var editor = document.querySelector("#editor-content");
 
-			const insertText = (textarea, text) => {
+			var insertText = (textarea, text) => {
 				// Get the current cursor position
 				const position = textarea.selectionStart;
 
@@ -44,7 +44,7 @@ templ Editor() {
 				textarea.selectionStart = textarea.selectionEnd = position + text.length;
 			};
 
-			target.addEventListener("paste", (event) => {
+			editor.addEventListener("paste", (event) => {
 				event.preventDefault();
 
 				const paste = (event.clipboardData || window.clipboardData);
@@ -59,12 +59,12 @@ templ Editor() {
 							method: 'POST',
 							body: formData
 						})
-						.then(response => response.json())
-						.then(data => console.log(data));
+						.then(response => response.text())
+						.then(data => 
+							insertText(event.target, "![](" + data + ")")
+						);
 					} else if (data[i].kind === "string") {
-						data[i].getAsString((s) => {
-							insertText(event.target, s);
-						});
+						insertText(event.target, paste.getData("text"));
 					}
 				}
 			});

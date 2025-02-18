@@ -3,6 +3,9 @@ package controller
 import (
 	"log"
 	"net/http"
+	"os"
+	"path/filepath"
+	"strings"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -25,6 +28,7 @@ type Models struct {
 	users   models.Users
 	threads models.Threads
 	editor  models.Editor
+	files   models.Files
 }
 
 func NewController(env utils.Environment) Controller {
@@ -39,6 +43,7 @@ func NewController(env utils.Environment) Controller {
 		users:   *models.NewUsersModel(db),
 		threads: *models.NewThreadsModel(db),
 		editor:  *models.NewEditorModel(db),
+		files:   *models.NewFilesModel(db),
 	}
 
 	return Controller{
@@ -69,9 +74,12 @@ func (c *Controller) htmlRoutes() http.Handler {
 	r.Group(func(r chi.Router) {
 		r.Use(c.sessionAuth)
 
+		setupFileServer(r)
+
 		r.Get("/", html.Dashboard())
 
 		r.Post("/markdown", html.ConvertMarkdownToHTML(c.models.editor))
+		r.Post("/images", html.UploadImage(c.models.files))
 
 		r.Route("/dashboard", func(r chi.Router) {
 			r.Get("/", html.Dashboard())
@@ -152,4 +160,30 @@ func (c *Controller) jsonRoutes() http.Handler {
 	})
 
 	return r
+}
+
+func setupFileServer(r chi.Router) {
+	workDir, _ := os.Getwd()
+	filesDir := http.Dir(filepath.Join(workDir, ".dev/files"))
+	fileServer(r, "/files", filesDir)
+
+}
+
+func fileServer(r chi.Router, path string, root http.FileSystem) {
+	if strings.ContainsAny(path, "{}*") {
+		panic("FileServer does not permit any URL parameters.")
+	}
+
+	if path != "/" && path[len(path)-1] != '/' {
+		r.Get(path, http.RedirectHandler(path+"/", 301).ServeHTTP)
+		path += "/"
+	}
+	path += "*"
+
+	r.Get(path, func(w http.ResponseWriter, r *http.Request) {
+		rctx := chi.RouteContext(r.Context())
+		pathPrefix := strings.TrimSuffix(rctx.RoutePattern(), "/*")
+		fs := http.StripPrefix(pathPrefix, http.FileServer(root))
+		fs.ServeHTTP(w, r)
+	})
 }
